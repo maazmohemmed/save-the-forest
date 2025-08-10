@@ -1,33 +1,18 @@
-# Stage 1: Build the project
-# This stage uses a Node.js image to install dependencies and run build tasks.
-FROM node:18 AS builder
+FROM node:alpine as builder
 
-# Set the working directory inside the container
 WORKDIR /app
+COPY package.json .
+COPY gulpfile.js .
+COPY src/ ./src/
 
-# Copy the package.json and package-lock.json files
-COPY package*.json ./
+# Install dependencies and build
+RUN npm install && npm run build
 
-# Install project dependencies
-RUN npm install
-
-# Copy all the project files
-COPY . .
-
-# Run the build command (assuming your build process generates the 'dist' folder)
-# 'gulp' is the common command based on your gulpfile.js
-RUN gulp
-
-# Stage 2: Serve the application with NGINX
-# This stage uses a minimal NGINX image to serve the static files.
 FROM nginx:alpine
 
-# Copy the built files from the 'builder' stage into NGINX's web root directory.
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy built files from builder stage
+COPY --from=builder /app/dist/ /usr/share/nginx/html/
+COPY js13kgames-logo/ /usr/share/nginx/html/js13kgames-logo/
 
-
-# Expose port 80 to the outside world
 EXPOSE 80
-
-# The default NGINX command will start the server
 CMD ["nginx", "-g", "daemon off;"]
