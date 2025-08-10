@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: save-the-forest-deployment
+  labels:
+    app: save-the-forest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: save-the-forest
+  template:
+    metadata:
+      labels:
+        app: save-the-forest
+    spec:
+      containers:
+      - name: save-the-forest
+        image: maazmohemmed/save-the-forest:latest
+        ports:
+        - containerPort: 8000
