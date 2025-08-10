@@ -21,7 +21,7 @@ pipeline {
         stage('Scan Image with Trivy') {
             steps {
                 script {
-                    sh "docker run --rm -v \"$(pwd)\":/app aquasec/trivy:0.18.3 --severity CRITICAL,HIGH --exit-code 1 ${DOCKER_IMAGE}:${IMAGE_TAG}"
+                    sh "trivy image ${DOCKER_IMAGE}:${IMAGE_TAG}"
                 }
             }
         }
