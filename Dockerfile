@@ -1,18 +1,24 @@
-FROM node:alpine as builder
+# Stage 1: Build the project
+FROM node:18 AS builder
 
 WORKDIR /app
-COPY package.json .
-COPY gulpfile.js .
-COPY src/ ./src/
 
-# Install dependencies and build
-RUN npm install && npm run build
+COPY package*.json ./
 
+# Corrected lines: Install gulp-cli globally and then install project dependencies
+RUN npm install -g gulp-cli
+RUN npm install
+
+COPY . .
+
+# Now the 'gulp' command is available
+RUN gulp
+
+# Stage 2: Serve the application with NGINX
 FROM nginx:alpine
 
-# Copy built files from builder stage
-COPY --from=builder /app/dist/ /usr/share/nginx/html/
-COPY js13kgames-logo/ /usr/share/nginx/html/js13kgames-logo/
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]
