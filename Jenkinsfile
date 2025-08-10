@@ -32,10 +32,10 @@ pipeline {
                     sh "minikube start"
                     // The image will be pulled from Docker Hub, so no need to build again.
                     // The minikube docker-env is also not needed since kubectl pulls the image directly.
-                    sh "kubectl apply -f kubernetes/deployment.yaml"
-                    sh "kubectl apply -f kubernetes/service.yaml"
-                    sh "kubectl get deployments"
-                    sh "kubectl get services"
+                    sh "minikube kubectl -- apply -f kubernetes/deployment.yaml"
+                    sh "minikube kubectl -- apply -f kubernetes/service.yaml"
+                    sh "minikube kubectl -- get deployments"
+                    sh "minikube kubectl -- get services"
                 }
             }
         }
