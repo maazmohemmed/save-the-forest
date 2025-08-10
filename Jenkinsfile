@@ -10,7 +10,7 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'ae798623-fda7-4c12-9b30-89db69efe0e7') {
                         sh "docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} ."
                         sh "docker push ${DOCKER_IMAGE}:${IMAGE_TAG}"
                     }
