@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     // Use `docker.withRegistry` for a secure and clean way to manage Docker operations.
-                    docker.withRegistry('https://hub.docker.com/repositories/maazmohemmed', 'ae798623-fda7-4c12-9b30-89db69efe0e7') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'ae798623-fda7-4c12-9b30-89db69efe0e7') {
                         // Build and tag the image
                         sh "docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} ."
                         // Push the image to your Docker Hub repository
