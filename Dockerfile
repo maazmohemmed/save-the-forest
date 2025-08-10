@@ -8,16 +8,16 @@ WORKDIR /usr/share/nginx/html
 COPY *.html .
 
 # Copy CSS files
-COPY css/ ./css/
+COPY css/*.css ./css/
 
 # Copy JavaScript files
-COPY js/ ./js/
+COPY js/*.js ./js/
 
 # Copy PNG images only (since that's what your project uses)
 COPY images/*.png ./images/
 
 # Copy fonts
-COPY fonts/ ./fonts/
+#COPY fonts/ ./fonts/
 
 # Expose port 80
 EXPOSE 80
